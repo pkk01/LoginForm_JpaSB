@@ -21,11 +21,6 @@ public class MyController {
         return "register";
     }
 
-    @GetMapping("/loginPage")
-    public String openLoginPage() {
-        return "login";
-    }
-
     @PostMapping("/regForm")
     public String submitRegForm(@ModelAttribute("user") User user, Model model) {
 
@@ -36,5 +31,23 @@ public class MyController {
             model.addAttribute("errorMsg", "User registration failed");
         }
         return "register";
+    }
+
+    @GetMapping("/loginPage")
+    public String openLoginPage(Model model) {
+        model.addAttribute("user", new User());
+        return "login";
+    }
+
+    @PostMapping("/loginForm")
+    public String submitLoginForm (@ModelAttribute ("user") User user, Model model) {
+        User validUser = userService.loginUser(user.getEmail(),user.getPassword());
+        if (validUser != null) {
+            model.addAttribute("modelName", validUser.getName());
+            return "profile";
+        } else {
+            model.addAttribute("errorMsg", "Invalid email or password");
+            return "login";
+        }
     }
 }

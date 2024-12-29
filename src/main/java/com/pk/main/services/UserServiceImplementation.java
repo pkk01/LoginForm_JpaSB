@@ -21,11 +21,15 @@ public class UserServiceImplementation implements UserServices {
             return false;
         }
     }
-//    public boolean loginUser(User user) {
-//        try {
-//            userRepository.
-//        }catch (Exception e) {
-//            e.printStackTrace()//            return false;
-//        }
-//    }
+
+    @Override
+    public User loginUser(String email, String password) {
+        User Validuser = userRepository.findByEmail(email);
+
+        if (Validuser != null && Validuser.getPassword().equals(password)) {
+            return Validuser;
+        }
+        return null;
+    }
+
 }
